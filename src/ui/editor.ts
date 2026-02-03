@@ -73,10 +73,10 @@ class EditorUI {
         canvas.id = 'canvas';
 
         // app label
-        const appLabel = new Label({
-            id: 'app-label',
-            text: `SUPERSPLAT v${version}`
-        });
+        // const appLabel = new Label({
+        //     id: 'app-label',
+        //     text: `SUPERSPLAT v${version}`
+        // });
 
         // cursor label
         const cursorLabel = new Label({
@@ -128,7 +128,7 @@ class EditorUI {
         const menu = new Menu(events);
 
         canvasContainer.dom.appendChild(canvas);
-        canvasContainer.append(appLabel);
+        // canvasContainer.append(appLabel);
         canvasContainer.append(cursorLabel);
         canvasContainer.append(toolsContainer);
         canvasContainer.append(scenePanel);
@@ -151,12 +151,12 @@ class EditorUI {
             id: 'main-container'
         });
 
-        const timelinePanel = new TimelinePanel(events, tooltips);
-        const dataPanel = new DataPanel(events);
+        // const timelinePanel = new TimelinePanel(events, tooltips);
+        // const dataPanel = new DataPanel(events);
 
         mainContainer.append(canvasContainer);
-        mainContainer.append(timelinePanel);
-        mainContainer.append(dataPanel);
+        // mainContainer.append(timelinePanel);
+        // mainContainer.append(dataPanel);
 
         editorContainer.append(mainContainer);
 
@@ -178,7 +178,7 @@ class EditorUI {
         const imageSettingsDialog = new ImageSettingsDialog(events);
 
         // video settings
-        const videoSettingsDialog = new VideoSettingsDialog(events);
+        // const videoSettingsDialog = new VideoSettingsDialog(events);
 
         // about popup
         const aboutPopup = new AboutPopup();
@@ -187,7 +187,7 @@ class EditorUI {
         topContainer.append(exportPopup);
         topContainer.append(publishSettingsDialog);
         topContainer.append(imageSettingsDialog);
-        topContainer.append(videoSettingsDialog);
+        // topContainer.append(videoSettingsDialog);
         topContainer.append(shortcutsPopup);
         topContainer.append(aboutPopup);
 
@@ -242,82 +242,82 @@ class EditorUI {
             }
         });
 
-        events.function('show.videoSettingsDialog', async () => {
-            const videoSettings = await videoSettingsDialog.show();
+        // events.function('show.videoSettingsDialog', async () => {
+        //     const videoSettings = await videoSettingsDialog.show();
 
-            if (videoSettings) {
+        //     if (videoSettings) {
 
-                try {
-                    const docName = events.invoke('doc.name');
+        //         try {
+        //             const docName = events.invoke('doc.name');
 
-                    // Determine file extension and mime type based on format
-                    let fileExtension: string;
-                    let filePickerTypes: FilePickerAcceptType[];
+        //             // Determine file extension and mime type based on format
+        //             let fileExtension: string;
+        //             let filePickerTypes: FilePickerAcceptType[];
 
-                    // Codec name mapping for display
-                    const codecNames: Record<string, string> = {
-                        'h264': 'H.264',
-                        'h265': 'H.265',
-                        'vp9': 'VP9',
-                        'av1': 'AV1'
-                    };
-                    const codecName = codecNames[videoSettings.codec] || videoSettings.codec.toUpperCase();
+        //             // Codec name mapping for display
+        //             const codecNames: Record<string, string> = {
+        //                 'h264': 'H.264',
+        //                 'h265': 'H.265',
+        //                 'vp9': 'VP9',
+        //                 'av1': 'AV1'
+        //             };
+        //             const codecName = codecNames[videoSettings.codec] || videoSettings.codec.toUpperCase();
 
-                    if (videoSettings.format === 'webm') {
-                        fileExtension = '.webm';
-                        filePickerTypes = [{
-                            description: `WebM Video (${codecName})`,
-                            accept: { 'video/webm': ['.webm'] }
-                        }];
-                    } else if (videoSettings.format === 'mov') {
-                        fileExtension = '.mov';
-                        filePickerTypes = [{
-                            description: `MOV Video (${codecName})`,
-                            accept: { 'video/quicktime': ['.mov'] }
-                        }];
-                    } else if (videoSettings.format === 'mkv') {
-                        fileExtension = '.mkv';
-                        filePickerTypes = [{
-                            description: `MKV Video (${codecName})`,
-                            accept: { 'video/x-matroska': ['.mkv'] }
-                        }];
-                    } else {
-                        fileExtension = '.mp4';
-                        filePickerTypes = [{
-                            description: `MP4 Video (${codecName})`,
-                            accept: { 'video/mp4': ['.mp4'] }
-                        }];
-                    }
+        //             if (videoSettings.format === 'webm') {
+        //                 fileExtension = '.webm';
+        //                 filePickerTypes = [{
+        //                     description: `WebM Video (${codecName})`,
+        //                     accept: { 'video/webm': ['.webm'] }
+        //                 }];
+        //             } else if (videoSettings.format === 'mov') {
+        //                 fileExtension = '.mov';
+        //                 filePickerTypes = [{
+        //                     description: `MOV Video (${codecName})`,
+        //                     accept: { 'video/quicktime': ['.mov'] }
+        //                 }];
+        //             } else if (videoSettings.format === 'mkv') {
+        //                 fileExtension = '.mkv';
+        //                 filePickerTypes = [{
+        //                     description: `MKV Video (${codecName})`,
+        //                     accept: { 'video/x-matroska': ['.mkv'] }
+        //                 }];
+        //             } else {
+        //                 fileExtension = '.mp4';
+        //                 filePickerTypes = [{
+        //                     description: `MP4 Video (${codecName})`,
+        //                     accept: { 'video/mp4': ['.mp4'] }
+        //                 }];
+        //             }
 
-                    const suggested = `${removeExtension(docName ?? 'supersplat')}${fileExtension}`;
+        //             const suggested = `${removeExtension(docName ?? 'supersplat')}${fileExtension}`;
 
-                    let writable;
+        //             let writable;
 
-                    if (window.showSaveFilePicker) {
-                        const fileHandle = await window.showSaveFilePicker({
-                            id: 'SuperSplatVideoFileExport',
-                            types: filePickerTypes,
-                            suggestedName: suggested
-                        });
+        //             if (window.showSaveFilePicker) {
+        //                 const fileHandle = await window.showSaveFilePicker({
+        //                     id: 'SuperSplatVideoFileExport',
+        //                     types: filePickerTypes,
+        //                     suggestedName: suggested
+        //                 });
 
-                        writable = await fileHandle.createWritable();
-                    }
+        //                 writable = await fileHandle.createWritable();
+        //             }
 
-                    await events.invoke('render.video', videoSettings, writable);
-                } catch (error) {
-                    if (error instanceof DOMException && error.name === 'AbortError') {
-                        // user cancelled save dialog
-                        return;
-                    }
+        //             await events.invoke('render.video', videoSettings, writable);
+        //         } catch (error) {
+        //             if (error instanceof DOMException && error.name === 'AbortError') {
+        //                 // user cancelled save dialog
+        //                 return;
+        //             }
 
-                    await events.invoke('showPopup', {
-                        type: 'error',
-                        header: 'Failed to render video',
-                        message: `'${error.message ?? error}'`
-                    });
-                }
-            }
-        });
+        //             await events.invoke('showPopup', {
+        //                 type: 'error',
+        //                 header: 'Failed to render video',
+        //                 message: `'${error.message ?? error}'`
+        //             });
+        //         }
+        //     }
+        // });
 
         events.on('show.about', () => {
             aboutPopup.hidden = false;

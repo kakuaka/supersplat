@@ -111,8 +111,8 @@ class Menu extends Container {
         });
         buttonsContainer.append(scene);
         buttonsContainer.append(selection);
-        buttonsContainer.append(render);
-        buttonsContainer.append(help);
+        // buttonsContainer.append(render);
+        // buttonsContainer.append(help);
         buttonsContainer.append(collapse);
         buttonsContainer.append(arrow);
 
