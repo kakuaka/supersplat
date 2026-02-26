@@ -30,6 +30,7 @@ import { SphereSelection } from './tools/sphere-selection';
 import { ToolManager } from './tools/tool-manager';
 import { registerTransformHandlerEvents } from './transform-handler';
 import { EditorUI } from './ui/editor';
+import { Tutorial } from './ui/tutorial';
 import { localizeInit } from './ui/localization';
 
 declare global {
@@ -63,6 +64,33 @@ const getURLArgs = () => {
         });
     };
 
+    // 1. 从URL参数获取（用于本地测试）
+    let tokenFromStorage: string | null = null;
+    const urlParams = new URLSearchParams(window.location.search);
+    // const tokenFromUrl = urlParams.get('token');
+    const userIdFromUrl = urlParams.get('userId');
+    localStorage.setItem('USER_ID', userIdFromUrl);
+    console.log('-tokenFromUrl是', userIdFromUrl, window.location.search);
+    // if (tokenFromUrl) {
+    //     tokenFromStorage = decodeURIComponent(tokenFromUrl);
+    //     localStorage.setItem('ACCESS_TOKEN', tokenFromStorage);
+        
+    //     // 清除URL参数，避免暴露token
+    //     urlParams.delete('token');
+    //     const newUrl = window.location.pathname + (urlParams.toString() ? '?' + urlParams.toString() : '');
+    //     window.history.replaceState({}, document.title, newUrl);
+    // }
+    // 2. 从localStorage获取
+    tokenFromStorage = localStorage.getItem('ACCESS_TOKEN');
+    console.log('-tokenFromStorage是', tokenFromStorage, localStorage.getItem('user'));
+
+    // 检查token是否存在
+    if (!tokenFromStorage) {
+        console.log('没有找到token，重定向到登录页面');
+        redirectToLogin();
+        return config; // 避免继续执行
+    }
+
     const params = new URLSearchParams(window.location.search.slice(1));
     params.forEach((value: string, key: string) => {
         apply(key, value);
@@ -71,7 +99,14 @@ const getURLArgs = () => {
     return config;
 };
 
+const redirectToLogin = () => {
+    const redirectUrl = encodeURIComponent(window.location.href);
+    console.log('----redirectUrl是', redirectUrl)
+    window.location.href = `/login?redirect=${redirectUrl}`;
+};
+
 const main = async () => {
+ 
     // root events object
     const events = new Events();
 
@@ -239,7 +274,9 @@ const main = async () => {
     // handle load params
     const loadList = url.searchParams.getAll('load');
     const filenameList = url.searchParams.getAll('filename');
+    console.log('loadList', loadList, filenameList);
     for (const [i, value] of loadList.entries()) {
+        console.log('load', i, value, decodeURIComponent(filenameList[i]));
         const decoded = decodeURIComponent(value);
         const filename = i < filenameList.length ?
             decodeURIComponent(filenameList[i]) :
@@ -250,7 +287,6 @@ const main = async () => {
             url: decoded
         }]);
     }
-
 
     // handle OS-based file association in PWA mode
     if ('launchQueue' in window) {
@@ -263,6 +299,14 @@ const main = async () => {
             }
         });
     }
+
+
+    // tutorial
+    const tutorial = new Tutorial(events);
+
+    setTimeout(() => {
+        tutorial.start();
+    }, 1000);
 };
 
 export { main };

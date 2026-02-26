@@ -24,6 +24,7 @@ import { Tooltips } from './tooltips';
 import { VideoSettingsDialog } from './video-settings-dialog';
 import { ViewCube } from './view-cube';
 import { ViewPanel } from './view-panel';
+import { Tutorial } from './tutorial';
 import { version } from '../../package.json';
 
 // ts compiler and vscode find this type, but eslint does not
@@ -380,6 +381,16 @@ class EditorUI {
                 document.body.focus();
             }
         }, true);
+
+
+        // tutorial
+        const tutorial = new Tutorial(events);
+    
+        // 订阅
+        events.on('show.tutorial', () => {
+            console.log('editor-show.tutorial');
+            tutorial.forceStart();
+        });
     }
 }
 

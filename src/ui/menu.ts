@@ -112,7 +112,7 @@ class Menu extends Container {
         buttonsContainer.append(scene);
         buttonsContainer.append(selection);
         // buttonsContainer.append(render);
-        // buttonsContainer.append(help);
+        buttonsContainer.append(help);
         buttonsContainer.append(collapse);
         buttonsContainer.append(arrow);
 
@@ -288,6 +288,10 @@ class Menu extends Container {
             icon: 'E136',
             onSelect: () => events.fire('show.shortcuts')
         }, {
+            text: localize('menu.help.tutorial'),
+            icon: 'E137',
+            onSelect: () => events.fire('show.tutorial')
+        },{
             // separator
         }, {
             text: localize('menu.help.discord'),
